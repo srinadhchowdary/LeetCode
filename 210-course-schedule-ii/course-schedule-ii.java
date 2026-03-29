@@ -51,9 +51,7 @@ class Solution {
             }
         }
 
-        if(i != numCourses){
-            return new int[0];
-        }
+        if(i != numCourses) return new int[0];
 
         return ans;
         
