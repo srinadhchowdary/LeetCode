@@ -4,7 +4,6 @@ class Solution {
 
         vis[node] = 1;
         pathvis[node] = 1;
-        check[node]=0;
 
         for(Integer it : adjList.get(node)){
             if(vis[it] == 0){
