@@ -1,61 +1,51 @@
 class Solution {
-
-    public boolean dfs(int node,ArrayList<ArrayList<Integer>> adjList , int[] vis,int[] pathvis,int[] check){
-
-        vis[node] = 1;
-        pathvis[node] = 1;
-
-        for(Integer it : adjList.get(node)){
-            if(vis[it] == 0){
-                if(dfs(it,adjList,vis,pathvis,check) == true){
-                    return true;
-                }
-            }
-            else if(pathvis[it] == 1){
-                return true;
-            }
-        }   
-
-        pathvis[node] = 0;
-        check[node] =1;
-        return false;
-
-    }
     public List<Integer> eventualSafeNodes(int[][] graph) {
 
-        int n = graph.length;
 
-        ArrayList<ArrayList<Integer>> adjList = new ArrayList<>();
+        int n = graph.length;
+        
+
+        List<List<Integer>> adjList = new ArrayList<>();
 
         for(int i=0;i<n;i++){
             adjList.add(new ArrayList<>());
         }
 
+        int indegree[] = new int[n];
+
         for(int i=0;i<n;i++){
             for(int j=0;j<graph[i].length;j++){
-                adjList.get(i).add(graph[i][j]);
+                adjList.get(graph[i][j]).add(i);
+                indegree[i]++;
             }
         }
 
-        int vis[] = new int[n];
-        int pathvis[] = new int[n];
-        int check[] = new int[n];
 
+        Queue<Integer> q = new LinkedList<>();
+
+        ArrayList<Integer> safe = new ArrayList<>();
 
         for(int i=0;i<n;i++){
-            if(vis[i] == 0){
-                dfs(i,adjList,vis,pathvis,check);
+            if(indegree[i] == 0){
+                q.offer(i);
             }
         }
 
-        List<Integer> safe = new ArrayList<>();
-        for(int i=0;i<n;i++){
-            if(check[i] == 1){
-                safe.add(i);
+        while(!q.isEmpty()){
+            int node = q.poll();
+            safe.add(node);
+            for(Integer it : adjList.get(node)){
+                indegree[it] --;
+                if(indegree[it] == 0){
+                    q.offer(it);
+                }
             }
         }
 
+        Collections.sort(safe);
         return safe;
+
+
         
     }
 }
