@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Triple {
     int position;
     int health;
@@ -54,7 +52,7 @@ class Solution {
 
                     if (t.health == curr.health) {
                         stk.pop();
-                        curr.health = 0; // both die
+                        curr.health = 0; 
                         break;
                     }
                     else if (t.health > curr.health) {
