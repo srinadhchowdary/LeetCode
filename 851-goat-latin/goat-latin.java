@@ -14,7 +14,7 @@ class Solution {
                 sb.deleteCharAt(0);
                 sb.append(ch+"ma");
             }
-            sb.append("a".repeat(i+1)).append("");
+            sb.append("a".repeat(i+1));
             sent[i] = sb.toString();
         }
         
