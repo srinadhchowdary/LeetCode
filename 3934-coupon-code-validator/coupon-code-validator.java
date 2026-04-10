@@ -20,20 +20,7 @@ class Solution {
     }
 
     public boolean isValid(String code){
-
-        if(code == null || code.isEmpty()){return false;}
-
-        for(int i=0;i<code.length();i++){
-            char ch = code.charAt(i);
-
-            if(Character.isLetterOrDigit(ch) || ch == '_' ){
-                continue;
-            }
-            else{
-                return false;
-            }
-        }
-        return true;
+        return code.matches("\\w+");
     }
 
     public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
