@@ -1,8 +1,8 @@
-class Pair {
+class Pair{
     String code;
     String businessLine;
 
-    Pair(String code, String businessLine) {
+    Pair(String code , String businessLine){
         this.code = code;
         this.businessLine = businessLine;
     }
@@ -10,11 +10,26 @@ class Pair {
 
 class Solution {
 
-    public boolean isValid(String code) {
-        if (code == null || code.isEmpty()) return false;
+    public boolean ValidBusiness(String busineessLine){
 
-        for (char ch : code.toCharArray()) {
-            if (!Character.isLetterOrDigit(ch) && ch != '_') {
+        if(busineessLine.equals("electronics") || busineessLine.equals("grocery") || busineessLine.equals("pharmacy")
+        || busineessLine.equals("restaurant")){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValid(String code){
+
+        if(code == null || code.isEmpty()){return false;}
+
+        for(int i=0;i<code.length();i++){
+            char ch = code.charAt(i);
+
+            if(Character.isLetterOrDigit(ch) || ch == '_' ){
+                continue;
+            }
+            else{
                 return false;
             }
         }
@@ -23,40 +38,24 @@ class Solution {
 
     public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
 
-        int n = code.length;
+        int n= code.length;
 
-        Map<String, Integer> order = new HashMap<>();
-        order.put("electronics", 0);
-        order.put("grocery", 1);
-        order.put("pharmacy", 2);
-        order.put("restaurant", 3);
-
-        List<Pair> list = new ArrayList<>();
-
-        for (int i = 0; i < n; i++) {
-            if (isValid(code[i]) &&
-                businessLine[i] != null &&
-                order.containsKey(businessLine[i]) &&
-                isActive[i]) {
-
-                list.add(new Pair(code[i], businessLine[i]));
-            }
+        List<Pair> p=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            if(isValid(code[i]) && ValidBusiness(businessLine[i]) && isActive[i]){
+                p.add(new Pair(code[i],businessLine[i]));
+            } 
         }
-
-        // ✅ Sorting (allows duplicates)
-        Collections.sort(list, (a, b) -> {
-            int cmp = Integer.compare(order.get(a.businessLine), order.get(b.businessLine));
-            if (cmp == 0) {
+        p.sort((a,b)->{
+            int res=a.businessLine.compareTo(b.businessLine);
+            if(res==0)
                 return a.code.compareTo(b.code);
-            }
-            return cmp;
+            return res;
         });
 
-        List<String> res = new ArrayList<>();
-        for (Pair p : list) {
-            res.add(p.code);
-        }
-
-        return res;
+        List<String> l = new ArrayList<>();
+        for(Pair curr:p)
+            l.add(curr.code);
+        return l;
     }
 }
