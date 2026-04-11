@@ -1,21 +1,31 @@
 class Solution {
     public int longestPalindrome(String s) {
 
-        int[] freq = new int[128];
+        int[] freq = new int[128]; // hash array
 
-        // count frequency
-        for(char ch : s.toCharArray()){
+        // same counting logic
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
             freq[ch]++;
         }
 
+        boolean odd = false;
         int len = 0;
 
-        for(int count : freq){
-            len += (count / 2) * 2; // take even part
+        // same logic as your map loop
+        for(int i = 0; i < 128; i++){
+            int val = freq[i];
 
-            if(len % 2 == 0 && count % 2 == 1){
-                len += 1; // add one odd in center
+            if(val % 2 == 1 && !odd){
+                odd = true;
+                len += val;
+                continue;
             }
+            else if(val % 2 == 0){
+                len += val;
+                continue;
+            }
+            len += val - 1;
         }
 
         return len;
