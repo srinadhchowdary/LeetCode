@@ -1,28 +1,31 @@
 class Solution {
     public int carFleet(int target, int[] position, int[] speed) {
 
-        TreeMap<Integer,Double> mp = new TreeMap(
-            Collections.reverseOrder()
-        );
+        int n= position.length;
+        
+        double pair[][] = new double[n][2];
 
         for(int i=0;i<position.length;i++){
-            int pos = position[i];
-            double time = (double)(target - pos) / (speed[i]);
-
-            mp.put(pos,time);
-        
+            pair[i][0] = position[i];
+            pair[i][1] = (double) (target - position[i])/speed[i];
         }
 
-        double res = 0,curr = 0;
+        Arrays.sort(pair , (a,b) -> Double.compare(b[0],a[0]));
+    
+        Stack<Double> stk = new Stack<>();
 
-        for(double time : mp.values()){
-            if(time > curr){
-                curr = time;
-                res++;
+
+        for(int i=0;i<pair.length;i++){
+            double time = pair[i][1];
+
+            if(stk.isEmpty() || time > stk.peek()){
+                stk.push(time);
             }
+
         }
 
-        return (int)res;
+    return stk.size();
+       
         
     }
 }
