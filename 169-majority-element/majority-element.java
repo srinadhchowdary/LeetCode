@@ -15,10 +15,21 @@ class Solution {
             else{
                 count--;
             }
-            
         }
 
-        return ele;
+        int count2 =0;
+
+        for(int num:nums){
+            if(ele == num){
+                count2++;
+            }
+        }
+
+        if(count2 > nums.length/2){
+            return ele;
+        }
+
+        return -1;
         
     }
 }
