@@ -7,12 +7,8 @@ class Solution {
         List<Integer> fl = new ArrayList<>();
         fl.add(1);
         l.add(fl);
-        if(n==1){
-            return l;
-        }
-
-
-        for(int i=2;i<=n;i++){
+        
+        for(int i=1;i<n;i++){
             List<Integer>ll =new ArrayList<>();
             ll.add(1);
             List<Integer>lastlist = l.get(l.size()-1);
