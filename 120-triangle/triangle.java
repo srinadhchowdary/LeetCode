@@ -4,21 +4,23 @@ class Solution {
 
 
         int n = triangle.size();
-        int dp[][] = new int[n][n];
 
+        int front[] = new int[n];
         for(int j=0;j<n;j++){
-            dp[n-1][j] = triangle.get(n-1).get(j);
+            front[j] = triangle.get(n-1).get(j);
         }
 
         for(int i=n-2;i>=0;i--){
+            int curr[]= new int[n];
             for(int j=i;j>=0;j--){
 
-                int down = triangle.get(i).get(j)+dp[i+1][j];
-                int diagonal = triangle.get(i).get(j)+dp[i+1][j+1];
-                dp[i][j] = Math.min(down,diagonal);
+                int down = triangle.get(i).get(j)+front[j];
+                int diagonal = triangle.get(i).get(j)+front[j+1];
+                curr[j] = Math.min(down,diagonal);
                 
             }
+            front = curr;
         }
-    return dp[0][0];
+    return front[0];
     }
 }
