@@ -1,8 +1,8 @@
 class Solution {
-    // Tabulation
+    // Space Optimization
 
-    // Time Complexity : O(N X M) those are the no of states at max we have
-    // Space Complexity : O(N X M)(matrix) + O(N) (recursion stack space)
+    // Time Complexity : O(N X M) + O(M)
+    // Space Complexity : O(N)
 
 
 
@@ -13,40 +13,41 @@ class Solution {
         int n= matrix[0].length;
 
     
-        int dp[][]=new int[m][n];
+        int prev[]=new int[n];
 
         for(int j=0;j<n;j++){
-            dp[0][j] = matrix[0][j];
+            prev[j] = matrix[0][j];
         }
 
         for(int i=1;i<m;i++){
+            int curr[]=new int[n];
 
 
             for(int j=0;j<n;j++){
 
-                
-                int up = matrix[i][j] + dp[i-1][j];
+                int up = matrix[i][j] + prev[j];
                 int ld = matrix[i][j];
                 if(j-1>=0){
-                ld += dp[i-1][j-1];}
+                ld += prev[j-1];}
                 else{
                     ld = Integer.MAX_VALUE;
                 }
                 int rd = matrix[i][j];
                 if(j+1 < n){
-                rd += dp[i-1][j+1];}
+                rd += prev[j+1];}
                 else{
                     rd = Integer.MAX_VALUE;
                 }
 
-                dp[i][j] = Math.min(up,Math.min(ld,rd));
+                curr[j] = Math.min(up,Math.min(ld,rd));
             }
+            prev = curr;
         }
         
         int min = Integer.MAX_VALUE;
 
         for(int j= 0;j<n;j++){
-            min = Math.min(min,dp[m-1][j]);
+            min = Math.min(min,prev[j]);
         }
         return min;
         
