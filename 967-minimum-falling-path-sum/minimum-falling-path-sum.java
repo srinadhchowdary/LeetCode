@@ -1,42 +1,57 @@
 class Solution {
+    // Tabulation
+
+    // Time Complexity : O(N X M) those are the no of states at max we have
+    // Space Complexity : O(N X M)(matrix) + O(N) (recursion stack space)
+
+
+
     public int minFallingPathSum(int[][] matrix) {
-        
-        int m = matrix.length;
-        int n = matrix[0].length;
 
-        int dp[]=new int[n];
 
-        for(int col=0;col<n;col++){
-            dp[col] = matrix[m-1][col]; 
+        int m= matrix.length;
+        int n= matrix[0].length;
+
+    
+        int dp[][]=new int[m][n];
+
+        for(int j=0;j<n;j++){
+            dp[0][j] = matrix[0][j];
         }
 
-        for(int row=m-2;row>=0;row--){
-            int temp[] = new int[n];
-            for(int col=0;col<n;col++){
-
-                int dl = Integer.MAX_VALUE;
-                int down = dp[col];
-                int dr = Integer.MAX_VALUE;
+        for(int i=1;i<m;i++){
 
 
-                if(col >0){
-                    dl = dp[col-1];
+            for(int j=0;j<n;j++){
+
+                
+                int up = matrix[i][j] + dp[i-1][j];
+                int ld = matrix[i][j];
+                if(j-1>=0){
+                ld += dp[i-1][j-1];}
+                else{
+                    ld = Integer.MAX_VALUE;
                 }
-                if(col+1 <n){
-                    dr = dp[col+1];
+                int rd = matrix[i][j];
+                if(j+1 < n){
+                rd += dp[i-1][j+1];}
+                else{
+                    rd = Integer.MAX_VALUE;
                 }
 
-                int best=matrix[row][col]+Math.min(down,Math.min(dl,dr));
-                temp[col]=best;
+                dp[i][j] = Math.min(up,Math.min(ld,rd));
             }
-            dp = temp;
         }
         
-        int ans = Integer.MAX_VALUE;
-        for (int col = 0; col < n; col++) {
-            ans = Math.min(ans, dp[col]);
-        }
+        int min = Integer.MAX_VALUE;
 
-        return ans;
+        for(int j= 0;j<n;j++){
+            min = Math.min(min,dp[m-1][j]);
+        }
+        return min;
+        
+
+
+        
     }
 }
