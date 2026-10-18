@@ -22,22 +22,15 @@ class Solution {
             ind += 3;
         }
 
-        if(n == 3){
-            sb.append(number.substring(number.length()-3,number.length()));
+        if(remaining == 4){
+            sb.append(number.substring(ind,ind+2));
+            sb.append("-");
+            sb.append(number.substring(ind+2,ind+4));   
         }
         else{
-
-            while(n!=0){
-                
-                sb.append(number.substring(number.length()-n , number.length()-n+2));
-                sb.append("-");
-                n-=2;
-            }
+            sb.append(number.substring(ind));
         }
-    if(sb.charAt(sb.length()-1) == '-'){
-        sb.deleteCharAt(sb.length()-1);
 
-    }
     return sb.toString();
     }
 }
