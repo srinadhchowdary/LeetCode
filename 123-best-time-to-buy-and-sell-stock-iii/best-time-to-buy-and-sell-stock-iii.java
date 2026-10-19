@@ -1,43 +1,35 @@
 class Solution {
 
-    // Memoisation
-    // Time complexity : Nx2x3
-    // Space Complexity : O(Nx2x3) + O(N)
+    // Tabulation
+    // Time complexity :
+    // Space Complexity : 
 
-    public int findProfit(int ind,int buy,int[][][] dp,int[] prices, int n,int cap){
-
-        if(ind == n)return 0;
-        if(cap == 0) return 0;
-
-        if(dp[ind][buy][cap] != -1)return dp[ind][buy][cap];
-
-        int money = 0;
-
-        if(buy == 1){
-            money = Math.max(-prices[ind]+findProfit(ind+1,0,dp,prices,n,cap),
-                             0+findProfit(ind+1,1,dp,prices,n,cap));
-        }
-        else{
-            money = Math.max(+prices[ind]+findProfit(ind+1,1,dp,prices,n,cap-1),
-                            0+findProfit(ind+1,0,dp,prices,n,cap));
-        }
-
-        dp[ind][buy][cap] = money;
-
-        return dp[ind][buy][cap];
-
-    }
+    
     public int maxProfit(int[] prices) {
 
-        int dp[][][] = new int[prices.length][2][3];
+        int dp[][][] = new int[prices.length+1][2][3];
 
-        for(int i=0;i<prices.length;i++){
-            for(int j=0;j<2;j++){
-                Arrays.fill(dp[i][j],-1);
+        for(int ind=prices.length-1;ind>=0;ind--){
+            for(int buy = 0;buy<=1;buy++){
+                // cap = 0 then return 0 so dp[?][?][0] = 0
+                int money = 0;
+                for(int cap = 1;cap<=2;cap++){
+                    
+                    if(buy == 1){
+                        money = Math.max(-prices[ind]+dp[ind+1][0][cap],
+                            0+dp[ind+1][1][cap]);
+                        }
+                    else{
+                        money = Math.max(+prices[ind]+dp[ind+1][1][cap-1],
+                            0+dp[ind+1][0][cap]);
+                        }
+
+                    dp[ind][buy][cap] = money;
+                }
             }
         }
 
-        return findProfit(0,1,dp,prices,prices.length,2);
+        return dp[0][1][2];
 
     }
 }
