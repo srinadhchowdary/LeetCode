@@ -1,36 +1,38 @@
+
 class Solution {
 
-    // Tabulation 
-    // Time complexity : O((Nx2)
-    // Space Complexity : O((N+2)x2)
-
+    // space optimisation
+    // TC : O(N)
+    // SC : O(N)
     public int maxProfit(int[] prices) {
-
         int n = prices.length;
 
-        int dp[][] = new int[n+2][2];
+        int[] front1 = new int[2]; // ind + 1
+        int[] front2 = new int[2]; // ind + 2
+        int[] curr = new int[2];
 
+        for (int ind = n - 1; ind >= 0; ind--) {
 
-        for(int ind=n-1;ind>=0;ind--){
-            for(int buy = 0;buy<=1;buy++){
-                int money = 0;
+            // Can buy
+            curr[1] = Math.max(
+                -prices[ind] + front1[0],
+                front1[1]
+            );
 
-                if(buy == 1){
+            // Can sell (cooldown after selling)
+            curr[0] = Math.max(
+                prices[ind] + front2[1],
+                front1[0]
+            );
 
-                    money = Math.max(-prices[ind]+dp[ind+1][0],
-                                    0+dp[ind+1][1]);
-                }
-                else{
-                    money = Math.max(+prices[ind]+dp[ind+2][1],
-                                    0+dp[ind+1][0]);
-                }
+            // Shift states
+            front2[0] = front1[0];
+            front2[1] = front1[1];
 
-                dp[ind][buy] = money;
-            }
-
+            front1[0] = curr[0];
+            front1[1] = curr[1];
         }
-        
-        return dp[0][1];
-        
+
+        return front1[1];
     }
 }
