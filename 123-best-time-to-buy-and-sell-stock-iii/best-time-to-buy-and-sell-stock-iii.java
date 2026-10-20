@@ -1,13 +1,14 @@
 class Solution {
 
-    // Tabulation
-    // Time complexity :
-    // Space Complexity : 
+    // Space Optimisation
+    // Time complexity : O(Nx2x2) ~ O(N)
+    // Space Complexity : O(2x3) = O(6) ~ O(N)
 
     
     public int maxProfit(int[] prices) {
 
-        int dp[][][] = new int[prices.length+1][2][3];
+        int after[][] = new int[2][3];
+        int curr[][] = new int[2][3];
 
         for(int ind=prices.length-1;ind>=0;ind--){
             for(int buy = 0;buy<=1;buy++){
@@ -16,20 +17,21 @@ class Solution {
                 for(int cap = 1;cap<=2;cap++){
                     
                     if(buy == 1){
-                        money = Math.max(-prices[ind]+dp[ind+1][0][cap],
-                            0+dp[ind+1][1][cap]);
+                        money = Math.max(-prices[ind]+after[0][cap],
+                            0+after[1][cap]);
                         }
                     else{
-                        money = Math.max(+prices[ind]+dp[ind+1][1][cap-1],
-                            0+dp[ind+1][0][cap]);
+                        money = Math.max(+prices[ind]+after[1][cap-1],
+                            0+after[0][cap]);
                         }
 
-                    dp[ind][buy][cap] = money;
+                    curr[buy][cap] = money;
                 }
+                after = curr;
             }
         }
 
-        return dp[0][1][2];
+        return after[1][2];
 
     }
 }
