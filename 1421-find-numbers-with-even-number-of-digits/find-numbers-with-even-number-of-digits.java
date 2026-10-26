@@ -1,10 +1,31 @@
 class Solution {
+
+    public boolean check(int nums[],int ind){
+        int count = 0;
+
+        while( ind>0){
+            int rem = ind%10;
+            count++;
+            ind = ind/10;
+            
+
+        }
+
+        if(count %2 == 0)return true;
+        return false;
+    }
     public int findNumbers(int[] nums) {
 
-        long ans = Arrays.stream(nums)
-            .filter(num -> String.valueOf(num).length()%2 == 0 )
-            .count();
+        int n = nums.length;
+        int count=0;
 
-        return (int)ans;
+        for(int i=0;i<n;i++){
+            if(check(nums,nums[i])){
+                count++;
+            }
+        }
+        
+    return count;
+
     }
 }
