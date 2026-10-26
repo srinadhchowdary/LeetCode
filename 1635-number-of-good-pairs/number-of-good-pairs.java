@@ -3,17 +3,12 @@ class Solution {
 
         int count =0,n= nums.length;
 
-        Map<Integer,Integer> mp = new HashMap<>();
+        int arr[]=new int[101];
+        Arrays.fill(arr,0);
 
         for(int i=0;i<n;i++){
-            if(mp.containsKey(nums[i])){
-                count=count+ mp.get(nums[i]);
-                mp.put(nums[i],mp.get(nums[i])+1);
-
-            }
-            else{
-                mp.put(nums[i],1);
-            }
+            count += arr[nums[i]];
+            arr[nums[i]]++;
         }
         
         return count;
