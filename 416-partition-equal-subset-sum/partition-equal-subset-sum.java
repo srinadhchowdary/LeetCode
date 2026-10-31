@@ -1,8 +1,8 @@
 class Solution {
 
     // Tabulation
-    // Time Complexity : 
-    // Space Complexity : 
+    // Time Complexity : O(N*target)
+    // Space Complexity : O(N*target) 
 
     
     public boolean canPartition(int[] nums) {
