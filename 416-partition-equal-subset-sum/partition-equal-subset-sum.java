@@ -1,25 +1,10 @@
 class Solution {
 
-    // Memoisation
-    // Time Complexity : O(N×target)
-    // Space Complexity : O(n×target) + O(n)
+    // Tabulation
+    // Time Complexity : 
+    // Space Complexity : 
 
-    public boolean findTarget(int ind,int target,int nums[],Boolean dp[][]){
-
-        if(target == 0)return true;
-        if(ind == 0) return nums[ind] == target;
-        if(dp[ind][target] != null)return dp[ind][target];
-
-        boolean skip = findTarget(ind-1,target,nums,dp);
-        boolean take = false;
-        if(nums[ind]<= target){
-            take = findTarget(ind-1,target-nums[ind],nums,dp);
-        }
-
-        dp[ind][target] = take | skip;
-
-        return dp[ind][target];
-    }
+    
     public boolean canPartition(int[] nums) {
 
         int n= nums.length;
@@ -31,8 +16,29 @@ class Solution {
         
 
         int target = sum/2;
-        Boolean dp[][]=new Boolean[n][target+1];
-        return findTarget(n-1,target,nums,dp);
+        boolean dp[][]=new boolean[n][target+1];
+        for(int i=0;i<n;i++){
+            dp[i][0] = true;
+        }
+
+        if(nums[0] <= target){
+            dp[0][nums[0]] = true;
+        }
+
+        for(int i=1;i<n;i++){
+            for(int tar = 1;tar<target+1;tar++){
+
+                boolean skip = dp[i-1][tar];
+                boolean take = false;
+                if(nums[i]<= tar){
+                    take = dp[i-1][tar-nums[i]];
+                }
+                dp[i][tar] = take | skip;               
+                }
+            }
+
+
+        return dp[n-1][target];
         
     }
 }
