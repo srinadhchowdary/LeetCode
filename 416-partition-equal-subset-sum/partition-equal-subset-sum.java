@@ -1,8 +1,8 @@
 class Solution {
 
-    // Tabulation
-    // Time Complexity : O(N*target)
-    // Space Complexity : O(N*target) 
+    // Space Optimisation
+    // Time Complexity : 
+    // Space Complexity :  
 
     
     public boolean canPartition(int[] nums) {
@@ -16,29 +16,30 @@ class Solution {
         
 
         int target = sum/2;
-        boolean dp[][]=new boolean[n][target+1];
-        for(int i=0;i<n;i++){
-            dp[i][0] = true;
-        }
+        boolean prev[]=new boolean[target+1];
+        prev[0] = true;
+
 
         if(nums[0] <= target){
-            dp[0][nums[0]] = true;
+            prev[nums[0]] = true;
         }
 
         for(int i=1;i<n;i++){
+            boolean curr[]=new boolean[target+1];
             for(int tar = 1;tar<target+1;tar++){
 
-                boolean skip = dp[i-1][tar];
+                boolean skip = prev[tar];
                 boolean take = false;
                 if(nums[i]<= tar){
-                    take = dp[i-1][tar-nums[i]];
+                    take = prev[tar-nums[i]];
                 }
-                dp[i][tar] = take | skip;               
+                curr[tar] = take | skip;               
                 }
+                prev= curr;
             }
 
 
-        return dp[n-1][target];
+        return prev[target];
         
     }
 }
