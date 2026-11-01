@@ -1,55 +1,69 @@
 class Solution {
-    public int lastStoneWeightII(int[] nums) {
 
-        int n= nums.length;
+    // Memoisation
+    // Time complexity : O(NxS)
+    // Space complexity : O(NxS)
 
-        int tsum =0,psum=0,nsum=0;
+    public boolean solve(
+        int ind,
+        int target,
+        int[] stones,
+        int[][] dp
+    ) {
 
-        for(int ele:nums){
-            tsum+=ele;
-            if(ele>=0){
-                psum+=ele;
-            }
-            else{
-                nsum+=ele;
+        if(target == 0) return true;
+
+        if(ind == 0) {
+            return stones[0] == target;
+        }
+
+        if(dp[ind][target] != -1) {
+            return dp[ind][target] == 1;
+        }
+
+        boolean skip = solve(ind-1, target, stones, dp);
+
+        boolean take = false;
+
+        if(target >= stones[ind]) {
+            take = solve(ind-1, target-stones[ind], stones, dp);
+        }
+
+        dp[ind][target] = (skip || take) ? 1 : 0;
+
+        return dp[ind][target] == 1;
+    }
+
+    public int lastStoneWeightII(int[] stones) {
+
+        int n = stones.length;
+
+        int totalSum = 0;
+
+        for(int stone : stones) {
+            totalSum += stone;
+        }
+
+        int limit = totalSum / 2;
+
+        int[][] dp = new int[n][limit+1];
+
+        for(int[] row : dp) {
+            Arrays.fill(row, -1);
+        }
+
+        int minDiff = Integer.MAX_VALUE;
+
+        for(int s1 = 0; s1 <= limit; s1++) {
+
+            if(solve(n-1, s1, stones, dp)) {
+
+                int s2 = totalSum-s1;
+
+                minDiff = Math.min(minDiff, s2-s1);
             }
         }
 
-        int offset = -nsum;
-        int range = psum+offset+1;
-
-        boolean dp[][]=new boolean[n][range];
-
-        for(int i=0;i<n;i++){
-            dp[i][offset] = true;
-        }
-
-        dp[0][offset+nums[0]] = true;
-
-        for(int i=1;i<n;i++){
-            for(int target=nsum;target<=psum;target++){
-                int ind = offset+target;
-                boolean skip = dp[i-1][ind];
-
-                int remainingsum = target - nums[i];
-                boolean take = false;
-                if(remainingsum >=nsum && remainingsum<=psum){
-                    take = dp[i-1][offset+remainingsum];
-                }
-
-                dp[i][target] = skip | take;
-            }
-        }
-
-        int mini=Integer.MAX_VALUE;
-        for(int s1=nsum;s1<=psum;s1++){
-            if(dp[n-1][offset+s1]){
-                int s2 = tsum-s1;
-                int diff = Math.abs(s1-s2);
-                mini = Math.min(mini,diff);
-            }
-            
-        }
-        return mini;
+        return minDiff;
     }
 }
