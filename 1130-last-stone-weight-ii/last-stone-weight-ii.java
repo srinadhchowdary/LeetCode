@@ -1,42 +1,10 @@
 class Solution {
 
-    // Memoisation
-    // Time complexity : O(NxS)
-    // Space complexity : O(NxS)
-
-    public boolean solve(
-        int ind,
-        int target,
-        int[] stones,
-        int[][] dp
-    ) {
-
-        if(target == 0) return true;
-
-        if(ind == 0) {
-            return stones[0] == target;
-        }
-
-        if(dp[ind][target] != -1) {
-            return dp[ind][target] == 1;
-        }
-
-        boolean skip = solve(ind-1, target, stones, dp);
-
-        boolean take = false;
-
-        if(target >= stones[ind]) {
-            take = solve(ind-1, target-stones[ind], stones, dp);
-        }
-
-        dp[ind][target] = (skip || take) ? 1 : 0;
-
-        return dp[ind][target] == 1;
-    }
+    // Space Optimisation
+    // Time Complexity : O(NxS)
+    // Space Complexity : O(N)
 
     public int lastStoneWeightII(int[] stones) {
-
-        int n = stones.length;
 
         int totalSum = 0;
 
@@ -46,17 +14,24 @@ class Solution {
 
         int limit = totalSum / 2;
 
-        int[][] dp = new int[n][limit+1];
+        boolean[] dp = new boolean[limit+1];
 
-        for(int[] row : dp) {
-            Arrays.fill(row, -1);
+        dp[0] = true;
+
+        for(int i = 0; i < stones.length; i++) {
+
+            for(int target = limit; target >= stones[i]; target--) {
+
+                dp[target] = dp[target] ||
+                             dp[target-stones[i]];
+            }
         }
 
         int minDiff = Integer.MAX_VALUE;
 
         for(int s1 = 0; s1 <= limit; s1++) {
 
-            if(solve(n-1, s1, stones, dp)) {
+            if(dp[s1]) {
 
                 int s2 = totalSum-s1;
 
