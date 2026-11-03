@@ -1,36 +1,38 @@
 class Solution {
 
-    // Memoisation
+    // Tabulation
     // Time complexity : O(N x amount)
     // Space complexity : O(N X amount)
 
-    public int denomination(int ind,int target,int[] coins,int[][]dp){
-        
-        if(ind == 0){
-            if(target % coins[ind] == 0)return target/coins[ind];
-            return 1000000;
-        }
-
-        if(dp[ind][target] != -1)return dp[ind][target];
-
-        int skip = 0+ denomination(ind-1,target,coins,dp);
-        int take = 1000000;
-        if(target >= coins[ind]){
-            take = 1+denomination(ind,target-coins[ind],coins,dp);
-        }
-
-        dp[ind][target] = Math.min(skip,take);
-        return dp[ind][target];
-    }
     public int coinChange(int[] coins, int amount) {
 
         int n = coins.length;
 
         int dp[][]=new int[n][amount+1];
-        for(int i=0;i<n;i++){
-            Arrays.fill(dp[i],-1);
+        for(int t= 0;t<=amount;t++){
+            if(t % coins[0] == 0){
+                dp[0][t] = t/coins[0];
+            }
+            else{
+                dp[0][t] = 1000000;
+            }
         }
-        int ans =  denomination(n-1,amount,coins,dp);
+
+        for(int ind=1;ind<n;ind++){
+            for(int target = 0;target<amount+1;target++){
+
+                int skip = 0+ dp[ind-1][target];
+                int take = 1000000;
+                if(target >= coins[ind]){
+                    take = 1+dp[ind][target-coins[ind]];
+                }
+
+                dp[ind][target] = Math.min(skip,take);
+
+            }
+        }
+        
+        int ans =  dp[n-1][amount];
         return ans >= 1000000 ? -1 : ans;
         
     }
