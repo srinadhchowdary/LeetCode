@@ -5,16 +5,11 @@ class Solution {
         int sum = 0;
 
         int n = gain.length;
+        int maxi = 0;
 
-        int prefix[]=new int[n+1];
-        prefix[0] = 0;
         for(int i=0;i<n;i++){
             sum +=gain[i];
-            prefix[i+1] = sum;
-        }
-        int maxi = Integer.MIN_VALUE;
-        for(int i=0;i<n+1;i++){
-            maxi= Math.max(maxi,prefix[i]);
+            maxi= Math.max(maxi,sum);
         }
 
         return maxi;
