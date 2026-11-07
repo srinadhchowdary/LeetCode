@@ -1,35 +1,36 @@
 class Solution {
 
-    // Tabulation
-    //Time complexity : O(NxTarget)
-    //Space complexity : O(NxTarget)
+    // Space Optimisation
+    //Time complexity : O(Target)
+    //Space complexity : O(Target)
 
     public int change(int amount, int[] coins) {
         int n= coins.length;
-        int dp[][]=new int[n][amount+1];
+        int dp[]=new int[amount+1];
 
         for(int T=0;T<=amount;T++){
             if(T%coins[0] == 0){
-                dp[0][T] = 1;
+                dp[T] = 1;
             }
             else{
-                dp[0][T] = 0;
+                dp[T] = 0;
             }
         }
 
         for(int ind = 1;ind < n;ind++){
+            int curr[]=new int[amount+1];
             for(int target=0;target<=amount;target++){
 
-                int skip = dp[ind-1][target];
+                int skip = dp[target];
                 int take = 0;
                 if(coins[ind] <= target){
-                    take = dp[ind][target-coins[ind]];
+                    take = curr[target-coins[ind]];
                 }
-                dp[ind][target] =  skip+take;
-
+                curr[target] =  skip+take;
             }
+            dp=curr;
         }
         
-        return dp[n-1][amount];
+        return dp[amount];
     }
 }
