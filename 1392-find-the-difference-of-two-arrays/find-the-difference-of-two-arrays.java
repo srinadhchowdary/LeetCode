@@ -17,15 +17,15 @@ class Solution {
             s2.add(nums2[i]);
         }
 
-        for(int i=0;i<nums1.length;i++){
-            if(!s2.contains(nums1[i]) && !l1.contains(nums1[i])){
-                l1.add(nums1[i]);
+        for(int s:s1){
+            if(!s2.contains(s) ){
+                l1.add(s);
             }
         }
 
-         for(int i=0;i<nums2.length;i++){
-            if(!s1.contains(nums2[i]) && !l2.contains(nums2[i])){
-                l2.add(nums2[i]);
+         for(int s:s2){
+            if(!s1.contains(s)){
+                l2.add(s);
             }
         }
 
