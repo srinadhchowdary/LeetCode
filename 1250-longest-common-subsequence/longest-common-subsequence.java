@@ -2,7 +2,7 @@ class Solution {
 
     // Memoisation
     // Time complexity : O(n1 * n2) 
-    // Space Complexity : O(n1*n2) + O(n1*n2);
+    // Space Complexity : O(n1*n2) + O(n1+n2)
 
 
     public int LCS(int ind1,int ind2,String text1,String text2,int[][]dp){
