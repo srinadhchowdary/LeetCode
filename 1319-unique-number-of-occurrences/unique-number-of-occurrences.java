@@ -20,7 +20,7 @@ class Solution {
                 int num1 = j-1000;
                 int freq2 = freq[j];
 
-                if(num != num1 && freq1 == freq2){
+                if(num != num1 && freq2>0 && freq1 == freq2){
                     return false;
                 }
             }
