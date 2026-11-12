@@ -10,19 +10,15 @@ class Solution {
             freq[index]++;
         }
 
-        for(int i=0;i<n;i++){
+        Set<Integer> s = new HashSet<>();
 
-            int num = arr[i];
-            int index = num+1000;
-            int freq1 = freq[index];
+        for(int i=0;i<2001;i++){
 
-            for(int j=0;j<2001;j++){
-                int num1 = j-1000;
-                int freq2 = freq[j];
-
-                if(num != num1 && freq2>0 && freq1 == freq2){
+            if(freq[i] != 0){
+                if(s.contains(freq[i])){
                     return false;
                 }
+                s.add(freq[i]);
             }
         }
 
