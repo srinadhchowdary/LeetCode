@@ -1,5 +1,9 @@
 class Solution {
 
+    // Memoisation
+    // Time complexity : O(NxM);
+    // Space complexity : O(NxM) + O(N+M)
+
     public int findlcs(int ind1,int ind2,String s1,String s2,int[][] dp){
 
         if(ind1<0) return ind2+1;
