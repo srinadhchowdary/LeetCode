@@ -6,22 +6,20 @@ class Solution {
         for(int i=0;i<nums1.length;i++){
             st.add(nums1[i]);
         }
-        
-        Set<Integer>st1 =new HashSet<>();
+
+        int arr[]=new int[Math.min(nums1.length,nums2.length)];
+        int j=0;
+
         for(int i=0;i<nums2.length;i++){
             if(st.contains(nums2[i])){
-                st1.add(nums2[i]);
+                arr[j] = nums2[i];
+                j++;
+                st.remove(nums2[i]);
             }
         }
-
-        int arr[]=new int[st1.size()];
-        int i=0;
-
-        for(int ele:st1){
-            arr[i] = ele;
-            i++;
-        }
         
-        return arr;
+       
+        
+        return Arrays.copyOf(arr,j);
     }
 }
