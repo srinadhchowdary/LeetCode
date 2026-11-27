@@ -10,13 +10,13 @@ class Solution {
             i++;
         }
 
-        while(j>0  && arr[j]<arr[j-1]){
-            j--;
+        if(i==0 || i==n - 1) return false;
+
+        while(i<n-1 && arr[i]>arr[i+1]){
+            i++;
         }
 
-        if(i==j && i != 0 && j != n - 1){
-            return true;
-        }
+        if(i==n-1)return true;
         return false;
         
     }
