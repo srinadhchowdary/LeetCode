@@ -3,22 +3,24 @@ class Solution {
 
         int n= nums.length,i=0,j=n-1;
 
-        int ans[]=new int[n];
-        int x = 0;
-
-        while(x<n){
-            if(nums[x]%2 == 0){
-                ans[i]= nums[x];
+        while(i<j){
+            if(nums[i]%2==0){
                 i++;
             }
-            else{
-                ans[j] = nums[x];
+            else if(nums[j]%2!=0){
                 j--;
             }
-            x++;
+            else{
+
+                int temp = nums[j];
+                nums[j] = nums[i];
+                nums[i] = temp;
+                i++;
+                j--;
+            }
         }
 
-        return ans;
+        return nums;
   
     }
 }
